@@ -1,0 +1,66 @@
+.TH configlocalise 8 "3 Feb 2011" "J C Lawrence"
+.SH NAME
+configlocalise - Configuration management tool
+.SH SYNOPSIS
+.B configlocalise -a ACTION [-f] -m MODULE -r RELEASE -t HOST [-v] [-q]
+
+.B configlocalise -a ACTION [-f] -m MODULE -r RELEASE -t HOST [-q] [-w FILE] [-x FIL:E] [-c DIR]  [-d EXTENSION] [-l FILE] [-e EXTENSION]
+.SH DESCRIPTION
+Configlocalise is part of the configtool system and is called by configmanage in order to process an individual configuration template.
+.SH BASIC OPTIONS
+.TP
+.B\--h
+Display a brief list of possible arguments and help text.
+.TP
+.B\--a [check|sample|write], \--action=[check|sample|write]
+.HP
+check - Compare the current configuration files with what is epxected from the template and current topology values
+.HP
+sample - Generate sample configuration files (.../config_file.sample) using the current templates and topology files.
+.HP
+write - Generate and install configuration files using the current templates and topology files.
+.TP
+.B\--f, \--force
+Required by the 'write' action.
+.B\--m, \--module=MODULE
+Define the Application or module to process
+.TP
+.B\--r RELEASE, \--release=RELEASE
+Alternative release to generate configuration files for.  (Defaults to the release listed int eh RPM database for $module)
+.TP
+.B\--t HOST, \--target=HOST
+Alternate host to generate configuration files for (defaults to the FQDN of the localhost)
+.TP
+.B\--b, \--nobackup
+Do not make backups of the processed files
+.TP
+.B\--v, \--verbose
+Output detailed operational reports to stdout
+.TP
+.B\--q, \--quiet
+Supress default output of succsss/failure of operation (not the inverse of verbose)
+.SH DEBUG OPTIONS
+.TP
+.B\--c DIR, \--topodir=DIR
+Alternate location for the topo directory (defaults to /etc/configtool/topo.d)
+.TP
+.B\--d EXTENSION, \--topoext=EXTENSION
+Alternate extension to use for topo files (defaults to "topo")
+.TP
+.B\--l FILE, \--listfile=FILE
+Alternate catalog of configuration files for module (defaults to /etc/configtool/modules.d/${module}.cfgs
+.TP
+.B\--e EXTENSION, \--extension=EXTENSION
+Alternative file extension for configuration templates (defaults to "templ")
+.SH FILES
+/etc/configtool/topo.d/topo-internal.topo /etc/configtool/topo.d/topo-managed.topo /etc/configtool/topo.d/topo-production.topo /etc/configtool/modules.d/{module}.cfgs /some/path/config_file.templ
+.SH SEE ALSO
+topo.d(5)
+configmanage(8)
+configtool(8)
+.SH DIAGNOSTICS
+Return code of zero (0) on success, otherwise non-zero.  If quiet option is not provided, will output messages on failure to stderr.
+.SH BUGS
+This man page is weak sauce.
+.SH AUTHOR
+The configtool system was written by J C Lawrence <claw@kanga.nu>.

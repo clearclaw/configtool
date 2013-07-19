@@ -1,0 +1,126 @@
+.TH topo.d 5 "3 Feb 2011" "J C Lawrence"
+.SH NAME
+topo.d - Configuration Management Topology Data
+.SH SYNOPSIS
+.B /etc/configtool/topo.d/*.topo
+.SH DESCRIPTION
+/etc/configtool/topo.d/ is a repository of topology files for the \fBconfigtool(8)\fP configuration management system.  Topology files have an extension of \fB.topo\fP.
+.P
+Toplogy files are INI-style files containing name-value pairs suitable for processing with the python configobj module.
+.SS TOPOLOGY FILE FORMAT
+The basic pattern for keywords is:
+.IP
+.nf
+# comment line
+# comment line
+keyword = value # inline comment
+.fi
+.PP
+Both keyword and value can optionally be surrounded in quotes. The equals sign is the only valid divider.
+.P
+Values can have comments on the lines above them, and an inline comment after them. This, of course, is optional. See the comments section for details.
+.P
+If a keyword or value starts or ends with whitespace, or contains a quote mark or comma, then it should be surrounded by quotes. Quotes are not necessary if whitespace is surrounded by non-whitespace.
+.P
+Values can also be lists. Lists are comma separated. You indicate a single member list by a trailing comma. An empty list is shown by a single comma:
+.IP
+.nf
+keyword1 = value1, value2, value3
+keyword2 = value1, # a single member list
+keyword3 = , # an empty list
+.fi
+.PP
+Values that contain line breaks (multi-line values) can be surrounded by triple quotes. These can also be used if a value contains both types of quotes. List members cannot be surrounded by triple quotes:
+.IP
+.nf
+keyword1 = ''' A multi line value
+on several
+lines'''     # with a comment
+keyword2 = '''I won't be "afraid".'''
+#
+keyword3 = """ A multi line value
+on several
+lines"""     # with a comment
+keyword4 = """I won't be "afraid"."""
+.fi
+.PP
+\fBWARNING:\fP There is no way of safely quoting values that contain both types of triple quotes.
+.P
+A line that starts with a '#', possibly preceded by whitespace, is a comment.
+.P
+New sections are indicated by a section marker line. That is the section name in square brackets. Whitespace around the section name is ignored. The name can be quoted with single or double quotes. The marker can have comments before it and an inline comment after it:
+.IP
+# The First Section
+[ section name 1 ] # first section
+keyword1 = value1
+
+# The Second Section
+[ "section name 2" ] # second section
+keyword2 = value2
+.PP
+Any subsections (sections that are inside the current section) are designated by repeating the square brackets before and after the section name. The number of square brackets represents the nesting level of the sub-section. Square brackets may be separated by whitespace; such whitespace, however, will not be present in the output config written by the write method.
+.P
+Indentation is not significant, but can be preserved. See the description of the indent_type option, in the ConfigObj specifications chapter, for the details.
+.P
+A NestingError will be raised if the number of the opening and the closing brackets in a section marker is not the same, or if a sub-section's nesting level is greater than the nesting level of it parent plus one.
+.P
+In the outer section, single values can only appear before any sub-section. Otherwise they will belong to the sub-section immediately before them:
+.P
+.IP
+# initial comment
+keyword1 = value1
+keyword2 = value2
+
+[section 1]
+keyword1 = value1
+keyword2 = value2
+
+    [[sub-section]]
+    # this is in section 1
+    keyword1 = value1
+    keyword2 = value2
+
+        [[[nested section]]]
+        # this is in sub section
+        keyword1 = value1
+        keyword2 = value2
+
+    [[sub-section2]]
+    # this is in section 1 again
+    keyword1 = value1
+    keyword2 = value2
+
+[[sub-section3]]
+# this is also in section 1, indentation is misleading here
+keyword1 = value1
+keyword2 = value2
+
+# final comment
+.PP
+.SS TOPOLOGY FILE STRUCTURE
+.P
+Topology files are assumed to have up to three levels: \fBmodule\fP, \fBhost\fP and \fBversion\fP.  Not all levels need to be present.  Topology files may also contain a \fBdefault\fP section.
+.IP
+[default]
+name_x=value
+name_y=value
+[moduleXXX]
+  name_1=value
+  name_2=value
+  [[hostAAA]]
+    name_1=value
+    name_2=value
+    [[[3.7.2]]]
+      name_1=value
+.PP
+.SH FILES
+/etc/configtool/topo.d/*.topo
+.SH SEE ALSO
+configtool(8)
+configmanage(8)
+configlocalise(8)
+configobj at http://pypi.python.org/pypi/configobj/
+.SH BUGS
+This man page is weak sauce.
+.SH AUTHOR
+The configtool system was written by J C Lawrence <claw@kanga.nu>.
