@@ -1,4 +1,4 @@
-.TH configtool 8 "3 Feb 2012" "J C Lawrence"
+.TH configtool 8 "18 Sept 2013" "J C Lawrence"
 .SH NAME
 configtool - Configuration management tool
 .SH SYNOPSIS
@@ -69,23 +69,14 @@ Output detailed operational reports to stdout
 Supress default output of succsss/failure of operation (not the inverse of verbose)
 .SH DEBUG OPTIONS
 .TP
-.B\--w FILE, \--localtool=FILE
-Alternate location for configlocalise (defaults to configlocalise)
+.B\--d  \--debug
+Output debug information about internal operations, error details and tracebacks.
 .TP
-.B\--x FILE, \--execute=FILE
-Alternate location for configmanage (defaults to configmanage)
+.B\--c DIR, \--configtooldir=DIR
+Alternate location of the Configtool management directories (modules.d and topo.d).
 .TP
-.B\--c DIR, \--topodir=DIR
-Alternate location for the topo directory (defaults to /etc/configtool/topo.d)
-.TP
-.B\--d EXTENSION, \--topoext=EXTENSION
-Alternate extension to use for topo files (defaults to "topo")
-.TP
-.B\--l FILE, \--listfile=FILE
-Alternate catalog of configuration files for module (defaults to /etc/configtool/modules.d/${module}.cfgs
-.TP
-.B\--e EXTENSION, \--extension=EXTENSION
-Alternative file extension for configuration templates (defaults to "templ")
+.B\--w DIR, \--wordir=DIR
+Alternate root directory for managed configuration files.
 .TP
 .B\--r RELEASE, \--release=RELEASE
 Alternative release (to that defined in teh RPM database) to generate configuration files for.  (Defaults to the release listed int eh RPM database for $module)
@@ -110,11 +101,9 @@ To see what configuration files are managed for FOO:
 .P
 .B cat /etc/configtool/modules.d/FOO.cfgs
 .SH FILES
-/etc/configtool/topo.d/topo-internal.topo /etc/configtool/topo.d/topo-managed.topo /etc/configtool/topo.d/topo-production.topo /etcconfigtool/modules.d/{module}.cfgs /some/path/config_file.templ
+/etc/configtool/topo.d/*.topo /etc/configtool/modules.d/*.cfgs
 .SH SEE ALSO
 topo.d(5)
-configtool(8)
-configlocalise(8)
 .SH DIAGNOSTICS
 Return code of zero (0) on success, otherwise non-zero.  If quiet option is not provided, will output messages on failure to stderr.
 .SH BUGS

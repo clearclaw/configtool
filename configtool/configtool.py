@@ -367,7 +367,7 @@ def process_cfgs (options, cfg_ext, out_ext, func):
     line = line.strip ()
     if not line or line[0] == "#":
       continue
-    if line[0] == os.path.sep:
+    if line[0] == os.path.sep: # Knock of root for work_dir
       line = line[1:]
     in_file = os.path.join (options.work_dir, line + cfg_ext)
     out_file = os.path.join (options.work_dir, line + out_ext)
