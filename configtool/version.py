@@ -15,7 +15,6 @@ def get_version ():
     return s, tuple (s.split ("."))
   except: # pylint: disable-msg=W0702
     # Likely not in a Git repo -- either way, punt
-    print __name__
     s = pkg_resources.get_distribution (__name__.split (".")[0]).version
     return s, tuple (s.split ("."))
 
