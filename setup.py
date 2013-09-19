@@ -23,6 +23,8 @@ setup (
   zip_safe = True,
   install_requires = [
     "configobj",
+    "logtool",
+    "psver",
   ],
   entry_points = {
     "console_scripts": [
