@@ -19,8 +19,6 @@ from setuptools import setup, find_packages
 
 __version__, __version_info__ = pyver.get_version (pkg = "configtool")
 
-exec open ("configtool/version.py")
-
 setup (
   name = "configtool",
   version = __version__,
